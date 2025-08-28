@@ -1,13 +1,23 @@
 'use client'
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import {
 
     QueryClient,
-    QueryClientProvider,
+    
   } from '@tanstack/react-query'
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 
-  
-  // Create a client
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+})
+
+export const asyncStoragePersister = createAsyncStoragePersister({
+  storage: localStorage,
+})
   
 export function ReactQueryProvider({
     children,
@@ -16,9 +26,10 @@ export function ReactQueryProvider({
   }) {
     return (
       // Provide the client to your App
-      <QueryClientProvider client={queryClient}>
+      <PersistQueryClientProvider persistOptions={{ persister: asyncStoragePersister }}  client={queryClient}>
+
             {children}
-      </QueryClientProvider>
+      </ PersistQueryClientProvider>
     )
   }
-  
+

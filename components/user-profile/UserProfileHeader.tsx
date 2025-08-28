@@ -5,9 +5,9 @@ import Image from "next/image"
 import { StarIcon, StarOutlineIcon, UserIcon } from "./icons"
 import styles from "./userProfileHeader.module.scss"
 import { useUserStore } from "../../store/userStore"
-import { tabsFont } from "../../styles/fonts"
 import useLocalStorage from "../../hooks/useLocalStorage"
-import { UsersProp } from "../../hooks/getUsersDataHook"
+import { UsersProp } from "../../actions/getUsers"
+import { tabsFont } from "../../styles/fonts"
 
 interface UserProfileHeaderProps {
   userId: string
