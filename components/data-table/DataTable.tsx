@@ -13,7 +13,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table"
 import { z } from "zod"
-import FilterForm from "./FilterForm"
+
 import ActionMenu from "./ActionMenu"
 import { SortIcon } from "./icons"
 import type { User } from "./data"
@@ -21,6 +21,8 @@ import styles from "./dataTable.module.scss"
 import useGetUserDataHook from "../../hooks/getUsersDataHook"
 import useGetUsersHooks from "../../hooks/getUsersDataHook"
 import { UsersProp } from "../../actions/getUsers"
+import FilterForm from "./FilterForm"
+import { filterForOrganisations } from "../user-profile/_UserProfileFunction/filterUser"
 
 // Define the filter schema with Zod
 export const filterSchema = z.object({
@@ -40,14 +42,17 @@ export default function DataTable() {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [globalFilter, setGlobalFilter] = useState("")
   const [columnFilters, setColumnFilters] = useState<FilterValues>({ status: "all" })
-  const [filters, setFilters] = useState<FilterValues>({})
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   })
   const { users: UsersData, error, isLoading: isGettingUsersData } = useGetUsersHooks()
-    const filteredData = useMemo(() => {
+
+  const organsations = filterForOrganisations(UsersData)
+  const filteredData = useMemo(() => {
     if (!UsersData) return []
+    
+    
 
     return UsersData.filter((user) => {
       return Object.entries(columnFilters).every(([key, value]) => {
@@ -160,7 +165,7 @@ export default function DataTable() {
 
   // Handle filter submission
   const handleFilterSubmit = (values: FilterValues) => {
-    setFilters(values)
+    setColumnFilters(values)
     setPagination((prev) => ({ ...prev, pageIndex: 0 })) // Reset to first page when filtering
     setIsFilterOpen(false)
   }
@@ -181,7 +186,7 @@ export default function DataTable() {
         <button data-testid="filterButton" className={styles.filterButton} onClick={toggleFilter}>
           Filter
         </button>
-        {isFilterOpen && <FilterForm onSubmit={handleFilterSubmit} onClose={() => setIsFilterOpen(false)} />}
+        {isFilterOpen && <FilterForm organsations={organsations} onSubmit={handleFilterSubmit} onClose={() => setIsFilterOpen(false)} />}
       </div>
 
       <div className={styles.tableWrapper}>

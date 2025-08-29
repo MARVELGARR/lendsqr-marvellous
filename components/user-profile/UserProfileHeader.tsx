@@ -8,6 +8,8 @@ import { useUserStore } from "../../store/userStore"
 import useLocalStorage from "../../hooks/useLocalStorage"
 import { UsersProp } from "../../actions/getUsers"
 import { tabsFont } from "../../styles/fonts"
+import { PersistedClientState } from "../../types"
+import { filterCacheForUser } from "./_UserProfileFunction/filterUser"
 
 interface UserProfileHeaderProps {
   userId: string
@@ -15,9 +17,7 @@ interface UserProfileHeaderProps {
 
 const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({ userId }) => {
   const {  setActiveTab, activeTab } = useUserStore()
-  const [users] = useLocalStorage<UsersProp[]>("users", null)
-  const user = users.find((u) => u.id === userId)
-
+  const user = filterCacheForUser(userId)
   if (!user) {
     return <div>User not found</div>
   }

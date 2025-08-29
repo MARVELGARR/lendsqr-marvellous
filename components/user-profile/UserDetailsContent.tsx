@@ -6,7 +6,8 @@ import type React from "react"
 import styles from "./userDetailsContent.module.scss"
 import { useUserStore } from "../../store/userStore"
 import useLocalStorage from "../../hooks/useLocalStorage"
-import { UsersProp } from "../../hooks/getUsersDataHook"
+import { UsersProp } from "../../actions/getUsers"
+import { filterCacheForUser } from "./_UserProfileFunction/filterUser"
 
 interface UserDetailsContentProps {
   userId: string
@@ -14,8 +15,9 @@ interface UserDetailsContentProps {
 
 const UserDetailsContent: React.FC<UserDetailsContentProps> = ({ userId }) => {
   const {  activeTab } = useUserStore()
-  const [users] = useLocalStorage<UsersProp[]>("users", null)
-  const user = users.find((u) => u.id === userId)
+  const [users] = useLocalStorage<UsersProp[]>("users", [])
+  
+  const user = filterCacheForUser(userId)
 
   if (!user) {
     return <div>User not found</div>
@@ -157,7 +159,8 @@ const UserDetailsContent: React.FC<UserDetailsContentProps> = ({ userId }) => {
     }
   }
 
-  return <div className={styles.detailsContent}>{renderTabContent()}</div>
+  return <div className={styles.detailsContent}>
+    {renderTabContent()}</div>
 }
 
 export default UserDetailsContent

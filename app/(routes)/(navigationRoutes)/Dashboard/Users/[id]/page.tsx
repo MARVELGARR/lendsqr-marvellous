@@ -1,37 +1,19 @@
-"use client";
 
-import { useRouter } from "next/navigation";
 import UserDetailsContent from "../../../../../../components/user-profile/UserDetailsContent";
 import UserProfileHeader from "../../../../../../components/user-profile/UserProfileHeader";
 import styles from "./style.module.scss";
+import BackButton from "../../../../../../components/utility_component/back-button";
 
-interface UserProfilePageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function UserProfilePage({ params }: UserProfilePageProps) {
-  const { id } = params;
 
-  const router = useRouter();
+export default  async function UserProfilePage({ params }: {params: Promise<{id: string}>}) {
+  const { id } = await  params;
+
 
   return (
     <div style={{ padding: "20px" }}>
       <div style={{ marginBottom: "20px" }}>
-        <button
-          onClick={() => router.back()}
-          style={{
-            color: "#545F7D",
-            textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            fontSize: "14px",
-          }}
-        >
-          ← Back to Users
-        </button>
+        <BackButton/>
       </div>
 
       <div className={styles.actionContainer}>

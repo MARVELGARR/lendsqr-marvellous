@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { CalendarIcon, ChevronDownIcon } from "./icons"
 import styles from "./filterForm.module.scss"
-import { useState } from "react"
 
 // Define the Zod schema for form validation
 export const filterSchema = z.object({
@@ -25,61 +24,131 @@ export const filterSchema = z.object({
 export type FilterValues = z.infer<typeof filterSchema>
 
 interface FilterFormProps {
+  organsations: String[]
   onSubmit: (values: FilterValues) => void
   onClose: () => void
 }
 
-export default function FilterForm({ onSubmit, onClose }: { onSubmit: (values: FilterValues) => void; onClose: () => void }) {
-  const [filters, setFilters] = useState<FilterValues>({})
+export default function FilterForm({ onSubmit, onClose, organsations }: FilterFormProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FilterValues>({
+    resolver: zodResolver(filterSchema),
+    defaultValues: {
+      organization: "",
+      username: "",
+      email: "",
+      phoneNumber: "",
+      date: "",
+      status: "",
+    },
+  })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    onSubmit(filters)
+
+  const handleReset = () => {
+    reset()
+    // After resetting the form, also submit empty values to clear filters
+    onSubmit({
+      organization: "",
+      username: "",
+      email: "",
+      phoneNumber: "",
+      date: "",
+      status: "",
+    })
   }
 
   return (
-    <div className={styles.filterForm}>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Organization</label>
+    <div className={styles.filterFormContainer}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className={styles.filterForm}>
+        <div className={styles.formGroup}>
+          <label htmlFor="organization" className={styles.label}>
+            Organization
+          </label>
+          <div className={styles.selectWrapper}>
+            <select  id="organization" {...register("organization")} className={styles.select}>
+              <option value="" disabled selected hidden>
+    Select an organization
+  </option>
+              {organsations?.map((org)=>{
+                return (
+                  
+                  <option key={org as string} value={org as string}>{org}</option>
+                )
+              })}
+            </select>
+            <ChevronDownIcon className={styles.selectIcon} />
+          </div>
+          {errors.organization && <p className={styles.errorMessage}>{errors.organization.message}</p>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="username" className={styles.label}>
+            Username
+          </label>
+          <input id="username" type="text" placeholder="User" {...register("username")} className={styles.input} />
+          {errors.username && <p className={styles.errorMessage}>{errors.username.message}</p>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
+          <input id="email" type="text" placeholder="Email" {...register("email")} className={styles.input} />
+          {errors.email && <p  data-testid="email-error" className={styles.errorMessage}>{errors.email.message}</p>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="date" className={styles.label}>
+            Date
+          </label>
+          <div className={styles.dateInputWrapper}>
+            <input id="date" type="date" {...register("date")} className={styles.input} placeholder="Date" />
+            <CalendarIcon className={styles.calendarIcon} />
+          </div>
+          {errors.date && <p className={styles.errorMessage}>{errors.date.message}</p>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="phoneNumber" className={styles.label}>
+            Phone Number
+          </label>
           <input
-            value={filters.organization || ""}
-            onChange={(e) => setFilters((prev) => ({ ...prev, organization: e.target.value }))}
-            placeholder="Filter by organization"
+            id="phoneNumber"
+            type="text"
+            placeholder="Phone Number"
+            {...register("phoneNumber")}
+            className={styles.input}
           />
+          {errors.phoneNumber && <p className={styles.errorMessage}>{errors.phoneNumber.message}</p>}
         </div>
-        <div>
-          <label>Username</label>
-          <input
-            value={filters.username || ""}
-            onChange={(e) => setFilters((prev) => ({ ...prev, username: e.target.value }))}
-            placeholder="Filter by username"
-          />
+
+        <div className={styles.formGroup}>
+          <label htmlFor="status" className={styles.label}>
+            Status
+          </label>
+          <div className={styles.selectWrapper}>
+            <select id="status" {...register("status")} className={styles.select}>
+              <option value="">Select</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Pending">Pending</option>
+              <option value="Blacklisted">Blacklisted</option>
+            </select>
+            <ChevronDownIcon className={styles.selectIcon} />
+          </div>
+          {errors.status && <p className={styles.errorMessage}>{errors.status.message}</p>}
         </div>
-        <div>
-          <label>Email</label>
-          <input
-            value={filters.email || ""}
-            onChange={(e) => setFilters((prev) => ({ ...prev, email: e.target.value }))}
-            placeholder="Filter by email"
-          />
-        </div>
-        <div>
-          <label>Status</label>
-          <select
-            value={filters.status || "all"}
-            onChange={(e) => setFilters((prev) => ({ ...prev, status: e.target.value }))}
-          >
-            <option value="all">All</option>
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-            <option value="Blacklisted">Blacklisted</option>
-          </select>
-        </div>
-        <div>
-          <button type="submit">Apply</button>
-          <button type="button" onClick={onClose}>
-            Cancel
+
+        <div className={styles.buttonGroup}>
+          <button type="button" onClick={handleReset} className={styles.resetButton}>
+            Reset
+          </button>
+          <button type="submit" data-testid='submit' className={styles.filterButton}>
+            Filter
           </button>
         </div>
       </form>
