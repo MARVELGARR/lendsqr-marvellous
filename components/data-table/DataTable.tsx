@@ -31,7 +31,7 @@ export const filterSchema = z.object({
   email: z.string().optional(),
   phoneNumber: z.string().optional(),
   date: z.string().optional(),
-  status: z.string().optional(),
+  status: z.enum(["All", "Active", "Inactive", "Pending", "Blacklisted"]).optional(),
 })
 
 export type FilterValues = z.infer<typeof filterSchema>
@@ -41,7 +41,7 @@ export default function DataTable() {
   const [sorting, setSorting] = useState<SortingState>([])
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [globalFilter, setGlobalFilter] = useState("")
-  const [columnFilters, setColumnFilters] = useState<FilterValues>({ status: "all" })
+  const [columnFilters, setColumnFilters] = useState<FilterValues>({ status: "All" })
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -49,19 +49,19 @@ export default function DataTable() {
   const { users: UsersData, error, isLoading: isGettingUsersData } = useGetUsersHooks()
 
   const organsations = filterForOrganisations(UsersData)
-  const filteredData = useMemo(() => {
-    if (!UsersData) return []
-    
-    
+const filteredData = useMemo(() => {
+  if (!UsersData) return [];
 
-    return UsersData.filter((user) => {
-      return Object.entries(columnFilters).every(([key, value]) => {
-        if (!value || value === "all") return true
-        const userValue = user[key as keyof UsersProp]
-        return String(userValue).toLowerCase().includes(String(value).toLowerCase())
-      })
+  return UsersData.filter((user) =>
+    Object.entries(columnFilters).every(([key, value]) => {
+      if (!value || value === "All") return true;
+      const normalizedValue = value.toString().toLowerCase();
+      const userValue = user[key as keyof UsersProp];
+      return userValue?.toString().toLowerCase().includes(normalizedValue);
     })
-  }, [UsersData, columnFilters])
+  );
+}, [UsersData, columnFilters]);
+
 
 
   // Define columns
