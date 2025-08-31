@@ -16,7 +16,7 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 })
 
 export const asyncStoragePersister = createAsyncStoragePersister({
-  storage: window.localStorage,
+  storage: localStorage,
 })
   
 export function ReactQueryProvider({
