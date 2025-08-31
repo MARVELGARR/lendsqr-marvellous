@@ -1,153 +1,233 @@
+Lendsqr Project
 
-# Lendsqr Project
+🚀 Live Demo: https://marvellous-obatale-lendsqr-fe-test-ccxyf645a.vercel.app/
 
-🚀 **Live Demo:** [https://marvellous-obatale-lendsqr-fe-test-ccxyf645a.vercel.app/](https://marvellous-obatale-lendsqr-fe-test-ccxyf645a.vercel.app/)  
-📦 **GitHub Repository:** [https://github.com/MARVELGARR/lendsqr-fe-test](https://github.com/MARVELGARR/lendsqr-fe-test)
+📦 GitHub Repository: https://github.com/MARVELGARR/lendsqr-fe-test
 
-Welcome to the **Lendsqr** project! This repository contains the source code and documentation for a user management and lending dashboard.
+Welcome to the Lendsqr Dashboard project!
+This repository contains the source code and documentation for a user management and lending admin dashboard built as part of a frontend engineering take-home assessment.
 
-This application was developed as part of a **frontend engineering take-home assignment**. The goal was to replicate a dashboard UI from a provided [Figma design](https://www.figma.com/design/ZKILoCoIoy1IESdBpq3GNC/Lendsqr-Frontend-Engineering-Assessment?node-id=5530-2599&t=d5ozv6e85gp36RcH-0), implementing responsive pages, reusable components, and functional interactivity using modern React tooling.
+The goal was to replicate a fully interactive dashboard UI from a provided Figma design
+, with responsive design, state management, and clean component-driven architecture using modern React and Next.js tooling.
 
----
+Table of Contents
 
-## Table of Contents
+Features
 
-- [Features](#features)
-- [Project Overview](#project-overview)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies Used](#technologies-used)
-- [Approach & Decisions](#approach--decisions)
-- [Contributing](#contributing)
-- [License](#license)
+Project Overview
 
----
+Installation
 
-## Features
+Usage
 
-- 🔐 User authentication UI
-- 📄 Paginated, searchable, and filterable user table
-- 🔍 User detail view with localStorage-based caching
-- 📊 Dashboard with summary widgets and quick access links
-- 📱 Fully responsive design
+Technologies Used
 
----
+Approach & Decisions
 
-## Project Overview
+Project Structure
 
-This project replicates the **Lendsqr Admin Dashboard** as designed in the [Figma design file](https://www.figma.com/design/ZKILoCoIoy1IESdBpq3GNC/Lendsqr-Frontend-Engineering-Assessment?node-id=5530-2599&t=d5ozv6e85gp36RcH-0). It includes:
+Known Issues & Fixes
 
-- A fully styled login page with form validation.
-- A dashboard layout including sidebar navigation, top navbar, and protected routing.
-- A user management page with pagination, filters, and user detail views.
-- Local caching for better UX and performance.
-- Clean, responsive UI closely matching the Figma mockup.
+Contributing
 
----
+License
 
-## Installation
+Author
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/MARVELGARR/lendsqr-fe-test.git
-    ```
+Features
 
-2. Navigate to the project directory:
-    ```bash
-    cd lendsqr-fe-test
-    ```
+✨ Key highlights of this project include:
 
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
+🔐 Authentication UI – A styled login page with form validation and responsive layout.
 
-4. Set up environment variables:
-    - Create a `.env` file in the root directory.
-    - Add any required variables as specified in `.env.example` (if provided).
+📄 User Management – Paginated, searchable, and filterable user table.
 
----
+🔍 User Detail View – Detailed user profile with cached data retrieval for faster navigation.
 
-## Usage
+📊 Dashboard Overview – Widgets showing user stats and quick navigation links.
 
-1. Start the development server:
-    ```bash
-    npm run dev
-    ```
+💾 Local Storage Caching – Improved UX with cached server data.
 
-2. Open your browser and navigate to:
-    ```
-    http://localhost:3000
-    ```
+📱 Fully Responsive Design – Mobile-first, tablet, and desktop-friendly layouts.
 
----
+🧩 Reusable Components – Shared UI pieces for consistent design and maintainability.
 
-## Technologies Used
+Project Overview
 
-- **React.js** – Component-based UI
-- **Next.js** – Routing, SSR support
-- **TypeScript** – Static typing
-- **SCSS Modules** – Scoped styling
-- **React Query** – Server state management
-- **TanStack Table** – Powerful data table utilities
-- **React Hook Form + Zod** – Form handling and schema validation
-- **React Icons** – Icon set used throughout the UI
+This project replicates the Lendsqr Admin Dashboard, staying faithful to the original design and focusing on clean code architecture, scalability, and developer-friendly patterns.
 
----
+Core Functionalities
 
-## Approach & Decisions
+Login Page – Styled and validated login form (dummy authentication).
 
-### ✅ Why Next.js?
-- Simplifies routing and layout separation (e.g., dashboard pages and user detail views).
-- Built-in performance optimizations and routing for scalability.
+Dashboard Layout – Sidebar navigation, top navbar, and protected routes.
 
-### ✅ Why React Query?
-- Handles server state like fetching, caching, pagination, and syncing with the UI efficiently.
+User List – Paginated table with filtering and search options.
 
-### ✅ Why TanStack Table?
-- Offers fine-grained control for paginated, sortable, and filterable tables.
+User Profile – Individual user data displayed in a structured, tabbed view.
 
-### ✅ Why SCSS Modules?
-- The Figma design required precise spacing, positioning, and reusable class structure, which SCSS modules made easy and maintainable.
+Offline Caching – Speeds up navigation when returning to previously loaded user data.
 
-### ✅ React Hook Form + Zod
-- Fast and scalable form handling with built-in validation powered by TypeScript types.
+Installation
 
-### ✅ Caching with `localStorage`
-- Prevents redundant API calls when navigating back to already-visited user details, enhancing UX.
+Clone the repository
 
-### 📱 Mobile Responsiveness
-- Built with responsiveness in mind using a combination of media queries and flexible layouts based on Figma’s mobile specs.
+git clone https://github.com/MARVELGARR/lendsqr-fe-test.git
 
----
 
-## Contributing
+Navigate into the project
 
-Contributions are welcome! Please follow these steps:
+cd lendsqr-fe-test
 
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b feature-name
-    ```
-3. Commit your changes:
-    ```bash
-    git commit -m "Add feature-name"
-    ```
-4. Push to the branch:
-    ```bash
-    git push origin feature-name
-    ```
-5. Open a pull request.
 
----
+Install dependencies
+Run:
 
-## License
+npm install
 
-This project is licensed under the [MIT License](LICENSE).
 
----
+If you encounter peer dependency conflicts, install with:
 
-### Author
+npm install --legacy-peer-deps
 
-Developed by **Marvellous Obatale** – [LinkedIn](https://www.linkedin.com/in/marvellous-obatale-960088267/)
+
+or
+
+npm install --force
+
+
+Note: Using --legacy-peer-deps ensures compatibility with older versions of libraries that might conflict during installation.
+
+Environment Setup
+
+Create a .env file in the project root.
+
+Add necessary variables from .env.example (if provided).
+Example:
+
+NEXT_PUBLIC_API_URL=https://api.example.com
+
+Usage
+
+Start the development server
+
+npm run dev
+
+
+Visit the app in your browser
+
+http://localhost:3000
+
+
+Build for production
+
+npm run build
+npm run start
+
+Technologies Used
+Category	Tools & Libraries
+Framework	Next.js
+ (React-based framework)
+Language	TypeScript
+
+State Management	React Query
+
+UI Components	React Icons
+
+Styling	SCSS Modules
+
+Forms & Validation	React Hook Form
+ + Zod
+
+Table Utilities	TanStack Table
+
+Deployment	Vercel
+Approach & Decisions
+Why Next.js?
+
+Simplifies routing and layout management.
+
+Provides server-side rendering for faster initial load times.
+
+Supports static optimization for production builds.
+
+Why React Query?
+
+Handles server state (caching, pagination, synchronization) efficiently.
+
+Improves user experience with minimal boilerplate.
+
+Why TanStack Table?
+
+Offers powerful control over tables, including pagination, sorting, and filtering.
+
+Why SCSS Modules?
+
+Enables scoped styling for cleaner, modular components.
+
+Why React Hook Form + Zod?
+
+Lightweight and fast form handling with type-safe validation.
+
+Why Local Storage Caching?
+
+Reduces redundant API calls when navigating between user detail pages.
+
+Improves perceived performance and offline resilience.
+
+Project Structure
+├── components/           # Reusable UI and feature components
+│   ├── layout/           # Navbar, Sidebar, etc.
+│   ├── user-profile/     # User profile-specific components
+│
+├── hooks/                # Custom React hooks (e.g., useLocalStorage)
+├── pages/                # Next.js routing pages
+│   ├── index.tsx         # Login page
+│   ├── dashboard/        # Dashboard landing
+│   ├── users/            # User list and detail pages
+│
+├── public/               # Static assets
+├── styles/               # Global and module SCSS
+├── types/                # Shared TypeScript types and interfaces
+└── utils/                # Utility functions
+
+Known Issues & Fixes
+Issue	Solution
+Peer dependency conflicts during npm install	Use npm install --legacy-peer-deps or npm install --force.
+Styling not applying properly in dev	Restart the dev server or clear the .next cache folder.
+Environment variables not recognized	Ensure .env is set up properly and the server has been restarted.
+Contributing
+
+Contributions are welcome! 🎉
+
+Fork the repository.
+
+Create a new branch:
+
+git checkout -b feature-name
+
+
+Commit your changes:
+
+git commit -m "Add feature-name"
+
+
+Push to the branch:
+
+git push origin feature-name
+
+
+Open a Pull Request for review.
+
+License
+
+This project is licensed under the MIT License
+.
+
+Author
+
+Developed by Marvellous Obatale
+
+LinkedIn
+
+GitHub
