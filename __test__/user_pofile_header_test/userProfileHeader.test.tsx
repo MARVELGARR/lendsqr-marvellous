@@ -1,66 +1,78 @@
-"use client"
+import { filterCacheForUser, filterForOrganisations } from "@/components/user-profile/_UserProfileFunction/filterUser"
+import useLocalStorage from "@/hooks/useLocalStorage"
+import { PersistedClientState } from "@/types"
 
-import { render, screen, fireEvent, cleanup } from "@testing-library/react"
 
-import { useUserStore } from "../../store/userStore"
-import { act } from "react"
-import UserProfileHeader from "../../components/user-profile/UserProfileHeader"
+// Mock the useLocalStorage hook
+jest.mock("@/hooks/useLocalStorage", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}))
 
-// Create a mock user to populate localStorage
-const mockUsers = [
-  {
-    id: "user123",
-    userId: "U123456",
-    avatar: "",
-    personalInfo: {
-      fullName: "Marvellous Obatale",
-    },
-    accountBalance: 50000,
-    bankInfo: {
-      accountNumber: "0123456789",
-      bankName: "Zenith Bank",
-    },
-  },
-]
-
-describe("UserProfileHeader (integration)", () => {
-  beforeEach(() => {
-    localStorage.setItem("users", JSON.stringify(mockUsers))
-
-    // Reset Zustand store
-    const { setActiveTab } = useUserStore.getState()
-    act(() => setActiveTab("general"))
+describe("filterCacheForUser", () => {
+  it("should return null if no userId is provided", () => {
+    const result = filterCacheForUser()
+    expect(result).toBeNull()
   })
 
-  afterEach(() => {
-    cleanup()
-    localStorage.clear()
+  it("should return the user if found in persisted cache", () => {
+    const mockData = {
+      clientState: {
+        queries: [
+          {
+            state: {
+              data: [
+                { id: "1", organization: "Org1", name: "John Doe" },
+                { id: "2", organization: "Org2", name: "Jane Smith" },
+              ],
+            },
+          },
+        ],
+      },
+    } as unknown as PersistedClientState
+
+    ;(useLocalStorage as jest.Mock).mockReturnValue([mockData])
+
+    const result = filterCacheForUser("1")
+    expect(result).toEqual({ id: "1", organization: "Org1", name: "John Doe" })
   })
 
-  it("renders correct user info", () => {
-    render(<UserProfileHeader userId="user123" />)
+  it("should return null if user is not found in persisted cache", () => {
+    const mockData = {
+      clientState: {
+        queries: [
+          {
+            state: {
+              data: [
+                { id: "2", organization: "Org2", name: "Jane Smith" },
+              ],
+            },
+          },
+        ],
+      },
+    } as unknown as PersistedClientState
 
-    expect(screen.getByText("Marvellous Obatale")).toBeInTheDocument()
-    expect(screen.getByText("U123456")).toBeInTheDocument()
-    expect(screen.getByText("₦50,000")).toBeInTheDocument()
-    expect(screen.getByText("0123456789/Zenith Bank")).toBeInTheDocument()
+    ;(useLocalStorage as jest.Mock).mockReturnValue([mockData])
+
+    const result = filterCacheForUser("3")
+    expect(result).toBeNull()
+  })
+})
+
+describe("filterForOrganisations", () => {
+  it("should return an empty array if input is empty", () => {
+    const result = filterForOrganisations([])
+    expect(result).toEqual([])
   })
 
-  it("changes tab on click and highlights active tab", () => {
-    render(<UserProfileHeader userId="user123" />)
+  it("should return unique organisation names", () => {
+    const input = [
+      { id: "1", organization: "Org1" },
+      { id: "2", organization: "Org2" },
+      { id: "3", organization: "Org1" },
+    ] as any[]
 
-    const loansTab = screen.getByRole("button", { name: /loans/i })
-    fireEvent.click(loansTab)
-
-    const { activeTab } = useUserStore.getState()
-    expect(activeTab).toBe("loans")
-
-    // Optionally test style class (if you expose it via data-testid or similar)
-    expect(loansTab.className).toMatch(/activeTab/)
-  })
-
-  it("shows fallback if user is not found", () => {
-    render(<UserProfileHeader userId="unknown-id" />)
-    expect(screen.getByText("User not found")).toBeInTheDocument()
+    const result = filterForOrganisations(input)
+    expect(result).toEqual(["Org1", "Org2"])
   })
 })

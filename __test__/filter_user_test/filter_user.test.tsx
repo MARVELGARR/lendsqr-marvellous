@@ -1,7 +1,7 @@
-import { UsersProp } from "../../actions/getUsers"
-import { filterCacheForUser } from "../../components/user-profile/_UserProfileFunction/filterUser"
-import useLocalStorage from "../../hooks/useLocalStorage"
-import { PersistedClientState } from "../../types"
+import { UsersProp } from "@/actions/getUsers"
+import { filterCacheForUser } from "@/components/user-profile/_UserProfileFunction/filterUser"
+import useLocalStorage from "@/hooks/useLocalStorage"
+import { PersistedClientState } from "@/types"
 
 // Mock the useLocalStorage hook
 jest.mock("@/hooks/useLocalStorage", () => ({

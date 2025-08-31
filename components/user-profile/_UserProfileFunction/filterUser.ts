@@ -5,9 +5,17 @@ import { PersistedClientState } from "../../../types"
 export const filterCacheForUser = (userId?: string) : UsersProp=>{
     if(!userId) return null
       const [persistedData] = useLocalStorage<PersistedClientState  >("REACT_QUERY_OFFLINE_CACHE", null)
-  const user = persistedData.clientState.queries[0].state.data.find((user)=> user.id == userId)
+ // ✅ Add null checks to prevent errors
+  if (!persistedData || !persistedData.clientState?.queries?.length) {
+    return null
+  }
+
+  const user = persistedData.clientState.queries[0].state.data.find(
+    (user) => user.id === userId
+  )
 
   return user || null
+
 } 
 
 

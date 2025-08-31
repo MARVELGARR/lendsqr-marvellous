@@ -69,7 +69,7 @@ export default function FilterForm({
   };
 
   return (
-    <div className={styles.filterFormContainer}>
+    <div data-testid="filter-form" className={styles.filterFormContainer}>
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate
@@ -84,10 +84,9 @@ export default function FilterForm({
               id="organization"
               {...register("organization")}
               className={styles.select}
+              defaultValue={"Select an organization"}
             >
-              <option value="" disabled selected hidden>
-                Select an organization
-              </option>
+              
               {organsations?.map((org) => {
                 return (
                   <option key={org as string} value={org as string}>
